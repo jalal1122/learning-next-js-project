@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 
 // Ensure database connection is initialized once per Lambda/edge instance.
 import { connectDB } from "@/Config/db.config";
@@ -17,7 +16,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return jsonError("Invalid user ID format", 400);

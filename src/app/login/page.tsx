@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Link from "next/link";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -122,12 +123,21 @@ const Login = () => {
           <div className="text-center pt-4">
             <p className="text-sm text-gray-600">
               If you don&apos;t have an account?{" "}
-              <a
+              <Link
                 href="/signup"
                 className="text-indigo-600 hover:text-indigo-500 font-medium transition-colors duration-200"
               >
                 Sign up here
-              </a>
+              </Link>
+            </p>
+            <p className="text-sm text-gray-600">
+              Forgot Password?{" "}
+              <Link
+                href="/forgotpassword"
+                className="text-indigo-600 hover:text-indigo-500 font-medium transition-colors duration-200"
+              >
+                Reset here
+              </Link>
             </p>
           </div>
         </div>

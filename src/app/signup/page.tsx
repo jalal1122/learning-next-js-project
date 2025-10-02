@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Link from "next/link";
 
 const Signup = () => {
   const [user, setUser] = useState({
@@ -141,12 +142,12 @@ const Signup = () => {
           <div className="text-center pt-4">
             <p className="text-sm text-gray-600">
               Already have an account?{" "}
-              <a
+              <Link
                 href="/login"
                 className="text-indigo-600 hover:text-indigo-500 font-medium transition-colors duration-200"
               >
                 Sign in here
-              </a>
+              </Link>
             </p>
           </div>
         </div>

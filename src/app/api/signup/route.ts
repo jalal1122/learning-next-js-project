@@ -2,6 +2,7 @@ import User from "@/Models/user.model.js";
 import { connectDB } from "@/Config/db.config";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import sendVerificationEmail from "@/Helpers/SendVerificationEmail";
 
 // Ensure database connection is initialized once per Lambda/edge instance.
 connectDB();
@@ -40,12 +41,30 @@ export async function POST(request: NextRequest) {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const verificationToken = await bcrypt.hash(
+      email + Date.now().toString(),
+      10
+    );
+
+    const verificationTokenBase64 = Buffer.from(verificationToken)
+      .toString("base64")
+      .replace(/\+/g, "-") // replace + with -
+      .replace(/\//g, "_") // replace / with _
+      .replace(/=+$/, ""); // remove padding =
+
     // Create and persist the new user
     const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
+      verificationToken: verificationTokenBase64,
+      isVerified: false,
+      verificationTokenExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
+      resetToken: undefined,
+      resetTokenExpiry: undefined,
     });
+
+    sendVerificationEmail("verify", email, verificationTokenBase64);
 
     return NextResponse.json(
       {
