@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
 // Ensure database connection is initialized once per Lambda/edge instance.
 import { connectDB } from "@/Config/db.config";
 import User from "@/Models/user.model.js";
+import mongoose from "mongoose";
 
 connectDB();
 
@@ -16,6 +18,16 @@ export async function GET(
 ) {
   try {
     const { id } = params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return jsonError("Invalid user ID format", 400);
+    }
+
+    const checkUser = await User.findById(id);
+    if (!checkUser) {
+      return jsonError("User not found", 404);
+    }
+
     if (!id) {
       return jsonError("User ID is required", 400);
     }
@@ -28,7 +40,12 @@ export async function GET(
 
     return NextResponse.json({ success: true, user }, { status: 200 });
   } catch (err: unknown) {
-    console.error("User retrieval error:", err);
-    return jsonError("Internal Server Error", 500);
+    if (err instanceof Error) {
+      console.error("User retrieval error:", err);
+      return jsonError(err?.message || "Internal Server Error", 500);
+    } else {
+      console.error("Unknown error:", err);
+      return jsonError("An unexpected error occurred", 500);
+    }
   }
 }
