@@ -23,8 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning is added to avoid noisy warnings when browser
+    // extensions inject attributes (e.g. cz-shortcut-listen) before React hydrates.
+    // Only use this if the mismatch is known & harmless.
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
