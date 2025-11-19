@@ -68,10 +68,17 @@ const ForgotPasswordPage: React.FC = () => {
       // Optionally navigate after delay
       // setTimeout(() => router.push('/login'), 1500);
     } catch (err) {
-      if(axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || "Something went wrong (placeholder). Wire API later.");
+      if (axios.isAxiosError(err)) {
+        setError(
+          err.response?.data?.message ||
+            "Something went wrong (placeholder). Wire API later."
+        );
       } else {
-        setError(err instanceof Error ? err.message : "Something went wrong (placeholder). Wire API later.");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Something went wrong (placeholder). Wire API later."
+        );
       }
     } finally {
       setSubmitting(false);
