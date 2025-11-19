@@ -7,6 +7,7 @@ import axios from "axios";
 interface UserShape {
   name: string;
   email: string;
+  isVerified: boolean;
 }
 
 // Skeleton component (full layout) shown while loading
@@ -137,6 +138,10 @@ const ProfilePage: React.FC = () => {
               {/* Status / Tagline Placeholder */}
               <p className="mt-4 text-xs uppercase tracking-wide text-indigo-600 font-medium bg-indigo-50 py-1 px-3 rounded-full">
                 Member Profile
+              </p>
+
+              <p className="mt-3 text-black">
+                Email Verified: {(user?.isVerified as boolean) ? "Yes" : "No"}
               </p>
             </div>
 
