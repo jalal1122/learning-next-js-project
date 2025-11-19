@@ -15,10 +15,10 @@ const jsonError = (message: string, status: number) =>
  */
 export async function POST(
   _request: NextRequest,
-  { params }: { params: { token: string } }
+  { params }: { params: Promise<{ token: string }> }
 ) {
   try {
-    const token = params.token;
+    const { token } = await params;
 
     if (!token) return jsonError("Verification token is required", 400);
 
