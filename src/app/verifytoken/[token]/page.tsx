@@ -54,7 +54,7 @@ const VerifyToken: React.FC = () => {
     return () => {
       isMounted = false;
     };
-  }, [token]);
+  }, [token, router]);
 
   const pulse = status === "verifying";
   const isError = status === "error";

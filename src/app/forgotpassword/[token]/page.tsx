@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Eye, EyeOff, RefreshCw } from "lucide-react"; // If lucide not installed, replace with simple spans
-import axios, { Axios } from "axios";
+import { Eye, EyeOff, RefreshCw } from "lucide-react";
+import axios from "axios";
 
 // NOTE: Pure UI only (no API call). Wire up actual functionality later.
 
